@@ -30,7 +30,7 @@
   <!-- Spawn robot model from robot_description -->
   <node name="panda_model_spawner" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model panda $(arg initial_joint_positions)" />
 
-  <group ns="panda">
+  <group>
     <!-- Load joint controller parameters for Gazebo -->
     <rosparam file="$(find panda_moveit_config)/config/gazebo_controllers.yaml" />
     <!-- Spawn Gazebo ROS controllers -->
