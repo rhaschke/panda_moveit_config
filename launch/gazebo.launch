@@ -24,21 +24,20 @@
     <arg name="use_sim_time" value="true" />
   </include>
 
-  <!-- Use pre-generated URDF using standard ROS packages only -->
-  <param name="robot_description" textfile="$(find panda_moveit_config)/config/panda_hand.urdf" />
+  <!-- Load Gazebo-capable robot_description -->
+  <param name="robot_description" command="xacro $(find franka_description)/robots/panda_arm.urdf.xacro
+         hand:=$(arg use_gripper) transmission:=$(arg transmission)
+         gazebo:=true gazebo_ns:=- gazebo_hwsim_type:=gazebo_ros_control/DefaultRobotHWSim"></param>
 
   <!-- Spawn robot model from robot_description -->
   <node name="panda_model_spawner" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model panda $(arg initial_joint_positions)" />
 
-  <group>
-    <!-- Load joint controller parameters for Gazebo -->
-    <rosparam file="$(find panda_moveit_config)/config/gazebo_controllers.yaml" />
-    <!-- Spawn Gazebo ROS controllers -->
-    <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
-          args="joint_state_controller" />
-    <!-- Load ROS controllers -->
-    <include file="$(dirname)/ros_controllers.launch" />
-  </group>
+  <!-- Load joint controller parameters for Gazebo -->
+  <rosparam file="$(find panda_moveit_config)/config/gazebo_controllers.yaml" />
+  <!-- Spawn Gazebo ROS controllers -->
+  <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
+  <!-- Load ROS controllers -->
+  <include file="$(dirname)/ros_controllers.launch" />
 
   <!-- Start robot state publisher (for tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
