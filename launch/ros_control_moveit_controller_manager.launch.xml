@@ -1,4 +1,9 @@
 <launch>
+	<arg name="robot_ns" default="" />
+
 	<!-- Define MoveIt controller manager plugin -->
 	<param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItControllerManager" />
+
+	<!-- Load action controller definitions -->
+	<rosparam subst_value="true" file="$(find panda_moveit_config)/config/moveit_controllers.yaml" />
 </launch>

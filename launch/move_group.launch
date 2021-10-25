@@ -18,6 +18,7 @@
   <arg name="execution_type" default="interpolate"/> <!-- set to 'last point' to skip intermediate trajectory in fake execution -->
   <arg name="max_safe_path_cost" default="1"/>
   <arg name="publish_monitored_planning_scene" default="true"/>
+  <arg name="robot_ns" default="" />
 
   <arg name="capabilities" default=""/>
   <arg name="disable_capabilities" default=""/>
@@ -78,6 +79,7 @@
     <arg name="moveit_manage_controllers" value="true" />
     <arg name="moveit_controller_manager" value="$(arg moveit_controller_manager)" />
     <arg name="execution_type" value="$(arg execution_type)" />
+    <arg name="robot_ns" value="$(arg robot_ns)" />
   </include>
 
   <!-- Sensors Functionality -->

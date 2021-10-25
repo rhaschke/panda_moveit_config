@@ -23,10 +23,14 @@
     <arg name="headless" value="$(eval not arg('gazebo_gui'))" />
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_gripper" default="$(arg load_gripper)"/>
-    <arg name="transmission" value="hardware_interface/PositionJointInterface"/>
   </include>
 
   <group ns="panda">
+    <!-- Load simulation controllers -->
+    <include file="$(dirname)/ros_controllers.launch">
+      <arg name="gazebo" value="true"/>
+    </include>
+
     <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
     <include file="$(dirname)/move_group.launch">
       <arg name="allow_trajectory_execution" value="true" />
@@ -37,6 +41,7 @@
       <arg name="load_gripper" value="$(arg load_gripper)" />
       <!-- robot description is loaded by franka_gazebo/panda.launch, to enable Gazebo features -->
       <arg name="load_robot_description" value="false" />
+      <arg name="robot_ns" value="/panda" />
     </include>
 
     <!-- Run Rviz and load the default config to see the state of the move_group node -->

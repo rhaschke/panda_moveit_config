@@ -6,5 +6,6 @@
 
   <include file="$(dirname)/move_group.launch">
     <arg name="load_gripper" value="$(arg load_gripper)" />
+    <arg name="moveit_controller_manager" value="ros_control" />
   </include>
 </launch>

@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="gazebo" default="false" /> <!--Set to 'true' when you want to use the simulation controllers-->
 
   <!-- Load controller configurations from YAML file(s) to parameter server -->
-  <rosparam file="$(find panda_moveit_config)/config/ros_controllers.yaml" />
+  <rosparam if="$(arg gazebo)" file="$(find panda_moveit_config)/config/ros_controllers.yaml" />
+  <rosparam unless="$(arg gazebo)" file="$(find panda_moveit_config)/config/real_ros_controllers.yaml" />
 
   <!-- Load joint-trajectory controller into ROS controller_manager -->
   <node name="trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="panda_arm_controller" />
