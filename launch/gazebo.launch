@@ -37,7 +37,9 @@
   <!-- Spawn Gazebo ROS controllers -->
   <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
   <!-- Load ROS controllers -->
-  <include file="$(dirname)/ros_controllers.launch" />
+  <include file="$(dirname)/ros_controllers.launch">
+    <arg name="mode" value="gazebo" />
+  </include>
 
   <!-- Start robot state publisher (for tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />

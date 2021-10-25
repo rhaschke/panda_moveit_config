@@ -1,10 +1,12 @@
 <?xml version="1.0" ?>
 <launch>
-  <arg name="load_gripper" default="true" />
+  <!-- Run move_group node and rviz -->
+  <include file="$(dirname)/demo.launch" pass_all_args="true">
+    <!-- Use ros_control to actuate joints -->
+    <arg name="moveit_controller_manager" value="ros_control" />
+  </include>
 
-  <include file="$(dirname)/ros_controllers.launch"/>
-
-  <include file="$(dirname)/move_group.launch">
-    <arg name="load_gripper" value="$(arg load_gripper)" />
+  <include file="$(dirname)/ros_controllers.launch">
+    <arg name="mode" value="real" />
   </include>
 </launch>
