@@ -1,6 +1,9 @@
 <launch>
-  <!-- specify the planning pipeline -->
+  <!-- Specify the planning pipeline -->
   <arg name="pipeline" default="ompl" />
+
+  <!-- Franka demo controller to use -->
+  <arg name="controller" default="cartesian_impedance_example_controller" />
 
   <!-- By default we will load the gripper -->
   <arg name="load_gripper" default="true" />
@@ -13,13 +16,19 @@
   <include file="$(find franka_gazebo)/launch/panda.launch">
     <arg name="headless" value="$(eval not arg('gazebo_gui'))" />
     <arg name="paused" value="$(arg paused)" />
-    <arg name="use_gripper" default="$(arg load_gripper)" />
+    <arg name="use_gripper" value="$(arg load_gripper)" />
+    <arg name="controller" value="$(arg controller)" />
   </include>
 
-  <include file="$(dirname)/demo.launch" pass_all_args="true">
-    <!-- robot description is loaded by gazebo.launch, to enable Gazebo features -->
-    <arg name="load_robot_description" value="false" />
-    <!-- Gazebo uses ros_control package to actuate joints -->
-    <arg name="moveit_controller_manager" value="ros_control" />
-  </include>
+  <group ns="panda">
+    <include file="$(dirname)/demo.launch" pass_all_args="true">
+      <!-- robot description is loaded by gazebo.launch, to enable Gazebo features -->
+      <arg name="load_robot_description" value="false" />
+      <!-- Gazebo uses ros_control package to actuate joints -->
+      <arg name="moveit_controller_manager" value="ros_control" />
+    </include>
+    <include file="$(dirname)/ros_controllers.launch">
+      <arg name="mode" value="gazebo" />
+    </include>
+  </group>
 </launch>
