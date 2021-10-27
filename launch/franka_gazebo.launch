@@ -2,8 +2,10 @@
   <!-- specify the planning pipeline -->
   <arg name="pipeline" default="ompl" />
 
-  <!-- By default we will load the gripper -->
+  <!-- Panda specific options -->
   <arg name="load_gripper" default="true" />
+  <arg name="transmission" default="effort" />
+  <arg name="controller" default=" " />
 
   <!-- Gazebo specific options -->
   <arg name="gazebo_gui" default="true" />
